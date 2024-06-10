@@ -1,0 +1,20 @@
+[gd_scene load_steps=4 format=3 uid="uid://dalwyn5trpmym"]
+
+[ext_resource type="Texture2D" uid="uid://chc8ihilo0tse" path="res://Assets/hero.jpg" id="1_16xxl"]
+[ext_resource type="Script" path="res://Scenes/player.gd" id="1_v6dv7"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_0xbr4"]
+size = Vector2(28, 28)
+
+[node name="Player" type="CharacterBody2D"]
+script = ExtResource("1_v6dv7")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_0xbr4")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.025, 0.025)
+texture = ExtResource("1_16xxl")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+zoom = Vector2(3, 3)
