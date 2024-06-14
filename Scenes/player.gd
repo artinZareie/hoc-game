@@ -3,6 +3,7 @@ extends CharacterBody2D
 const SPEED = 100.0
 const ANGULAR_SPEED = 5.0
 const BLOCKSIZE = 32
+const ANGULAR_EPS = PI/ 36
 # Atlas (1, 0) corresponds to wall
 const WALL_ATLAS_COORDS = [1, 0]
 const WATER_ATLAS_COORDS = [3, 0]
@@ -100,7 +101,7 @@ func _physics_process(delta):
 			self.position.y = destination[1]
 			on_process = false
 			instruction = 0
-		elif (instruction == 1 or instruction == 2) and (self.rotation - PI / 2 * direction) < PI / 36:
+		elif (instruction == 1 or instruction == 2) and (abs(self.rotation - PI / 2 * direction) < ANGULAR_EPS):
 			on_process = false
 		else:
 			match instruction:
