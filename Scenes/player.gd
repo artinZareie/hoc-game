@@ -4,8 +4,11 @@ const SPEED = 300.0
 const BLOCKSIZE = 32
 # Atlas (1, 0) corresponds to wall
 const WALL_ATLAS_COORDS = [1, 0]
+const WATER_ATLAS_COORDS = [3, 0]
 
 @export var direction: int = 0
+
+@onready var tilemap: TileMap = get_parent() as TileMap
 
 var instruction_queue = []
 var on_process = false
@@ -35,11 +38,29 @@ func move_forward():
 	
 func is_atlas_wall(atlas):
 	return atlas[0] == WALL_ATLAS_COORDS[0] and atlas[1] == WALL_ATLAS_COORDS[1]
+	
+func is_atlas_water(atlas):
+	return atlas[0] == WATER_ATLAS_COORDS[0] and atlas[1] == WATER_ATLAS_COORDS[1]
+	
+func win_operation():
+	print("You won!")
+	get_tree().paused = true
+
+func _ready():
+	# Checking if parent is actually a TileMap
+	if not tilemap:
+		print("Invalid Parent!")
 
 func _physics_process(delta):
 	self.rotation = PI / 2 * direction
 	var directionX = Input.get_axis("ui_left", "ui_right")
 	var directionY = Input.get_axis("ui_up", "ui_down")
+	
+	var curr_cell_coords = tilemap.local_to_map(self.position)
+	var curr_cell_atlas = tilemap.get_cell_atlas_coords(0, curr_cell_coords)
+	if is_atlas_water(curr_cell_atlas):
+		win_operation()
+	
 	if not on_process and instruction_queue.size() > 0:
 		instruction = instruction_queue.pop_front()
 		destination = [self.position.x, self.position.y]
@@ -63,8 +84,8 @@ func _physics_process(delta):
 		var run_into_wall: bool = false
 		
 		if instruction != 0 and instruction != 1 and instruction != 2:
-			var cell_coords = get_parent().local_to_map(Vector2(destination[0], destination[1]))
-			var cell_atlas = get_parent().get_cell_atlas_coords(0, cell_coords)
+			var cell_coords = tilemap.local_to_map(Vector2(destination[0], destination[1]))
+			var cell_atlas = tilemap.get_cell_atlas_coords(0, cell_coords)
 			if cell_atlas != null and is_atlas_wall(cell_atlas):
 				run_into_wall = true
 		
