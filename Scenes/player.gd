@@ -32,7 +32,7 @@ func move_forward():
 	instruction_queue.push_back(3)
 
 func _physics_process(delta):
-	self.rotation = 90 * direction
+	self.rotation = PI / 2 * direction
 	var directionX = Input.get_axis("ui_left", "ui_right")
 	var directionY = Input.get_axis("ui_up", "ui_down")
 	if not on_process and instruction_queue.size() > 0:
