@@ -3,14 +3,14 @@
 [ext_resource type="Texture2D" uid="uid://chc8ihilo0tse" path="res://Assets/hero.jpg" id="1_16xxl"]
 [ext_resource type="Script" path="res://Scenes/player.gd" id="1_v6dv7"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_0xbr4"]
-size = Vector2(28, 28)
+[sub_resource type="CircleShape2D" id="CircleShape2D_mu2w5"]
+radius = 14.0
 
 [node name="Player" type="CharacterBody2D"]
 script = ExtResource("1_v6dv7")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource("RectangleShape2D_0xbr4")
+shape = SubResource("CircleShape2D_mu2w5")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 scale = Vector2(0.025, 0.025)
