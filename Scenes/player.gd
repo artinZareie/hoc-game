@@ -1,6 +1,7 @@
 extends CharacterBody2D
 
-const SPEED = 300.0
+const SPEED = 100.0
+const ANGULAR_SPEED = 5.0
 const BLOCKSIZE = 32
 # Atlas (1, 0) corresponds to wall
 const WALL_ATLAS_COORDS = [1, 0]
@@ -10,7 +11,7 @@ const WATER_ATLAS_COORDS = [3, 0]
 
 @onready var tilemap: TileMap = get_parent() as TileMap
 
-var instruction_queue = []
+var instruction_queue = [3, 3, 3, 1, 3, 3, 3, 1, 3, 3, 3, 3, 2, 3, 3, 2, 3, 3, 3, 1, 3]
 var on_process = false
 var instruction = 0
 var destination = []
@@ -52,7 +53,7 @@ func _ready():
 		print("Invalid Parent!")
 
 func _physics_process(delta):
-	self.rotation = PI / 2 * direction
+	self.rotation = lerp_angle(self.rotation, PI / 2 * direction, ANGULAR_SPEED * delta)
 	var directionX = Input.get_axis("ui_left", "ui_right")
 	var directionY = Input.get_axis("ui_up", "ui_down")
 	
@@ -94,11 +95,13 @@ func _physics_process(delta):
 		
 	if on_process:
 		var destination_distance = abs(destination[0] - self.position.x) + abs(destination[1] - self.position.y)
-		if (destination_distance < 4):
+		if destination_distance < 4 and instruction != 1 and instruction != 2:
 			self.position.x = destination[0]
 			self.position.y = destination[1]
 			on_process = false
 			instruction = 0
+		elif (instruction == 1 or instruction == 2) and (self.rotation - PI / 2 * direction) < PI / 36:
+			on_process = false
 		else:
 			match instruction:
 				3:
