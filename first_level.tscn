@@ -33,7 +33,6 @@ layer_0/tile_data = PackedInt32Array(-1, 0, 0, -65537, 0, 0, -131073, 0, 0, -196
 [node name="Player" parent="." instance=ExtResource("2_7c02e")]
 position = Vector2(-112, -47)
 motion_mode = 1
-direction = 2
 
 [node name="forward" type="Button" parent="."]
 offset_left = -240.0

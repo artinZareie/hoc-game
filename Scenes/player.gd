@@ -2,6 +2,8 @@ extends CharacterBody2D
 
 const SPEED = 300.0
 const BLOCKSIZE = 32
+# Atlas (1, 0) corresponds to wall
+const WALL_ATLAS_COORDS = [1, 0]
 
 @export var direction: int = 0
 
@@ -30,6 +32,9 @@ func turn_counter():
 	
 func move_forward():
 	instruction_queue.push_back(3)
+	
+func is_atlas_wall(atlas):
+	return atlas[0] == WALL_ATLAS_COORDS[0] and atlas[1] == WALL_ATLAS_COORDS[1]
 
 func _physics_process(delta):
 	self.rotation = PI / 2 * direction
@@ -38,6 +43,7 @@ func _physics_process(delta):
 	if not on_process and instruction_queue.size() > 0:
 		instruction = instruction_queue.pop_front()
 		destination = [self.position.x, self.position.y]
+		
 		match instruction:
 			1:
 				direction = (direction + 1) % 4
@@ -53,7 +59,18 @@ func _physics_process(delta):
 			5: destination[0] -= BLOCKSIZE
 			6: destination[1] -= BLOCKSIZE
 			7: destination[1] += BLOCKSIZE
-		on_process = true
+		
+		var run_into_wall: bool = false
+		
+		if instruction != 0 and instruction != 1 and instruction != 2:
+			var cell_coords = get_parent().local_to_map(Vector2(destination[0], destination[1]))
+			var cell_atlas = get_parent().get_cell_atlas_coords(0, cell_coords)
+			if cell_atlas != null and is_atlas_wall(cell_atlas):
+				run_into_wall = true
+		
+		if not run_into_wall:
+			on_process = true
+		
 	if on_process:
 		var destination_distance = abs(destination[0] - self.position.x) + abs(destination[1] - self.position.y)
 		if (destination_distance < 4):
@@ -79,5 +96,3 @@ func _physics_process(delta):
 		velocity.y = move_toward(velocity.y, 0, SPEED)
 
 	move_and_slide()
-
-
