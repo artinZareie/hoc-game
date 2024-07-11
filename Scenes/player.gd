@@ -12,7 +12,7 @@ const WATER_ATLAS_COORDS = [3, 0]
 
 @onready var tilemap: TileMap = get_parent() as TileMap
 
-var instruction_queue = [3, 3, 3, 1, 3, 3, 3, 1, 3, 3, 3, 3, 2, 3, 3, 2, 3, 3, 3, 1, 3]
+var instruction_queue = []
 var on_process = false
 var instruction = 0
 var destination = []
@@ -52,6 +52,12 @@ func _ready():
 	# Checking if parent is actually a TileMap
 	if not tilemap:
 		print("Invalid Parent!")
+	var clockwise_button = get_node("../../Control/clockwise")
+	clockwise_button.pressed.connect(turn_clockwise)
+	var counter_button = get_node("../../Control/forward")
+	counter_button.pressed.connect(move_forward)
+	var forward_button = get_node("../../Control/counter")
+	forward_button.pressed.connect(turn_counter)
 
 func _physics_process(delta):
 	self.rotation = lerp_angle(self.rotation, PI / 2 * direction, ANGULAR_SPEED * delta)
