@@ -1,0 +1,21 @@
+[gd_scene format=3 uid="uid://bgqie1r3rp6l4"]
+
+[node name="ui" type="CanvasLayer"]
+
+[node name="clockwise" type="Button" parent="."]
+offset_left = 79.0
+offset_top = 11.0
+offset_right = 107.0
+offset_bottom = 37.0
+
+[node name="counter" type="Button" parent="."]
+offset_left = 9.0
+offset_top = 11.0
+offset_right = 35.0
+offset_bottom = 37.0
+
+[node name="forward" type="Button" parent="."]
+offset_left = 44.0
+offset_top = 11.0
+offset_right = 71.0
+offset_bottom = 37.0

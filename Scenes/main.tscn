@@ -1,34 +1,10 @@
-[gd_scene load_steps=2 format=3 uid="uid://xb34gqypmpnb"]
+[gd_scene load_steps=3 format=3 uid="uid://xb34gqypmpnb"]
 
 [ext_resource type="PackedScene" uid="uid://dy37d2j5bmfjh" path="res://first_level.tscn" id="1_6ewst"]
+[ext_resource type="PackedScene" uid="uid://bgqie1r3rp6l4" path="res://Scenes/ui.tscn" id="2_jil8w"]
 
 [node name="Main" type="Node2D"]
 
-[node name="TileMap" parent="." instance=ExtResource("1_6ewst")]
+[node name="level" parent="." instance=ExtResource("1_6ewst")]
 
-[node name="Control" type="Control" parent="."]
-layout_mode = 3
-anchors_preset = 0
-offset_right = 320.0
-offset_bottom = 223.0
-
-[node name="clockwise" type="Button" parent="Control"]
-layout_mode = 0
-offset_left = 31.0
-offset_top = 11.0
-offset_right = 39.0
-offset_bottom = 19.0
-
-[node name="counter" type="Button" parent="Control"]
-layout_mode = 0
-offset_left = 9.0
-offset_top = 11.0
-offset_right = 17.0
-offset_bottom = 19.0
-
-[node name="forward" type="Button" parent="Control"]
-layout_mode = 0
-offset_left = 20.0
-offset_top = 11.0
-offset_right = 28.0
-offset_bottom = 19.0
+[node name="ui" parent="." instance=ExtResource("2_jil8w")]
