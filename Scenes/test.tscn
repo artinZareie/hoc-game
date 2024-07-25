@@ -1,0 +1,17 @@
+[gd_scene load_steps=4 format=3 uid="uid://d0sd1ysldau63"]
+
+[ext_resource type="PackedScene" uid="uid://dy37d2j5bmfjh" path="res://first_level.tscn" id="1_belnr"]
+[ext_resource type="PackedScene" uid="uid://bgqie1r3rp6l4" path="res://Scenes/ui.tscn" id="2_38es5"]
+[ext_resource type="PackedScene" uid="uid://dt828a3ynyd5h" path="res://Scenes/CodeBlocks/IfDeclarative.tscn" id="3_r8038"]
+
+[node name="Main" type="Node2D"]
+
+[node name="level" parent="." instance=ExtResource("1_belnr")]
+
+[node name="ui" parent="." instance=ExtResource("2_38es5")]
+
+[node name="IfDeclarative" parent="." instance=ExtResource("3_r8038")]
+offset_left = -30.0
+offset_top = 38.0
+offset_right = 170.0
+offset_bottom = 70.0
