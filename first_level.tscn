@@ -1,6 +1,7 @@
-[gd_scene load_steps=5 format=3 uid="uid://dy37d2j5bmfjh"]
+[gd_scene load_steps=6 format=3 uid="uid://dy37d2j5bmfjh"]
 
 [ext_resource type="Texture2D" uid="uid://csx523gst011s" path="res://Assets/maze_blocks.png" id="1_8t5b0"]
+[ext_resource type="Script" path="res://first_level.gd" id="2_4wrco"]
 [ext_resource type="PackedScene" uid="uid://dalwyn5trpmym" path="res://Scenes/player.tscn" id="2_7c02e"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_dcped"]
@@ -29,6 +30,7 @@ sources/0 = SubResource("TileSetAtlasSource_dcped")
 tile_set = SubResource("TileSet_31vqn")
 format = 2
 layer_0/tile_data = PackedInt32Array(0, 65536, 0, 1, 65536, 0, 2, 65536, 0, 3, 65536, 0, 65536, 65536, 0, 131072, 65536, 0, 196608, 65536, 0, 4, 65536, 0, 5, 65536, 0, 6, 65536, 0, 7, 65536, 0, 8, 65536, 0, 9, 65536, 0, 65545, 65536, 0, 131081, 65536, 0, 196617, 65536, 0, 262153, 65536, 0, 327689, 65536, 0, 393225, 65536, 0, 393224, 65536, 0, 393223, 65536, 0, 393222, 65536, 0, 393221, 65536, 0, 393220, 65536, 0, 393219, 65536, 0, 393218, 65536, 0, 393217, 65536, 0, 393216, 65536, 0, 327680, 65536, 0, 262144, 65536, 0, 131074, 65536, 0, 196610, 65536, 0, 262146, 65536, 0, 327682, 65536, 0, 65540, 65536, 0, 131076, 65536, 0, 196612, 65536, 0, 262148, 65536, 0, 262150, 65536, 0, 262149, 65536, 0, 262151, 65536, 0, 131080, 65536, 0, 131079, 65536, 0, 131078, 65536, 0, 65544, 196608, 0, 65537, 0, 0, 131073, 0, 0, 196609, 0, 0, 262145, 0, 0, 327681, 0, 0, 65538, 0, 0, 65539, 0, 0, 131075, 0, 0, 196611, 0, 0, 262147, 0, 0, 327683, 0, 0, 327684, 0, 0, 327685, 0, 0, 327686, 0, 0, 327687, 0, 0, 327688, 0, 0, 262152, 0, 0, 196616, 0, 0, 196615, 0, 0, 196614, 0, 0, 196613, 0, 0, 131077, 0, 0, 65541, 0, 0, 65542, 0, 0, 65543, 0, 0)
+script = ExtResource("2_4wrco")
 
 [node name="Player" parent="." instance=ExtResource("2_7c02e")]
 position = Vector2(49, 49)
