@@ -20,4 +20,5 @@ func _can_drop_data(at_position: Vector2, data: Variant) -> bool:
 
 
 func _drop_data(at_position: Vector2, data: Variant):
-	pass
+	statements.push_back(data)
+	#print_debug(statements)

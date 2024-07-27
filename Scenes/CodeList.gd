@@ -20,9 +20,6 @@ func create_drag_icon(selected_index: int) -> TextureRect:
 		icon.size = fixed_icon_size
 		icon.size.x = fixed_icon_size.x
 		icon.size.y = fixed_icon_size.y
-		print(fixed_icon_size)
-		print("--------------------")
-		print(icon.size)
 
 	return icon
 
