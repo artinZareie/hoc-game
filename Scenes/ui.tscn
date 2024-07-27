@@ -44,11 +44,12 @@ item_3/text = "If"
 item_3/icon = ExtResource("4_tcepx")
 script = ExtResource("1_x1glx")
 
-[node name="Code" type="VBoxContainer" parent="."]
-clip_contents = true
+[node name="Code" type="Tree" parent="."]
 custom_minimum_size = Vector2(368, 277)
 offset_left = 10.0
 offset_top = 330.0
 offset_right = 378.0
 offset_bottom = 607.0
+hide_root = true
+drop_mode_flags = 3
 script = ExtResource("6_02jge")
