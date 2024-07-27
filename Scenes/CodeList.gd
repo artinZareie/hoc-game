@@ -27,8 +27,8 @@ func create_drag_icon(selected_index: int) -> TextureRect:
 func _get_drag_data(at_position) -> InventoryDrag:
 	var selected_item = get_selected_items()
 	
-	set_drag_preview(create_drag_icon(selected_item[0]))
-	
 	if selected_item.size() != 0:
+		set_drag_preview(create_drag_icon(selected_item[0]))
 		return InventoryDrag.new(selected_item[0])
+	
 	return InventoryDrag.new(0)
