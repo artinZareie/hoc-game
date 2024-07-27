@@ -39,6 +39,19 @@ func _can_drop_data(at_position: Vector2, data: Variant) -> bool:
 	return false
 
 
+func _change_empty(item: TreeItem, text: String, type: String, drag_section: int) -> void:
+	item.set_text(0, text)
+	node_types[item] = type
+
+
+func _insert_before(item: TreeItem, new_node: TreeItem) -> void:
+	new_node.move_before(item)
+
+
+func _insert_after(item: TreeItem, new_node: TreeItem) -> void:
+	new_node.move_after(item)
+
+
 func _drop_data(at_position: Vector2, data: Variant):
 	if data is InventoryDrag:
 		var drag_section = get_drop_section_at_position(at_position)
@@ -50,45 +63,54 @@ func _drop_data(at_position: Vector2, data: Variant):
 					var new_node = create_item(tree_root)
 					new_node.set_text(0, "rotate_clockwise()")
 					node_types[new_node] = "rotate_clockwise"
-				elif node_types[item] == 'empty' and drag_section == 0:
-					item.set_text(0, "rotate_clockwise()")
-					node_types[item] = "rotate_clockwise"
+				elif node_types[item] == 'empty':
+					_change_empty(item, "rotate_clockwise()", "rotate_clockwise", drag_section)
 				elif drag_section == 1:
-					# TODO: Insert the new node after item.
-					pass
+					var new_node = create_item(tree_root)
+					new_node.set_text(0, "rotate_clockwise()")
+					node_types[new_node] = "rotate_clockwise"
+					_insert_after(item, new_node)
 				elif drag_section == -1:
-					# TODO: Insert the new node before item.
-					pass
+					var new_node = create_item(tree_root)
+					new_node.set_text(0, "rotate_clockwise()")
+					node_types[new_node] = "rotate_clockwise"
+					_insert_before(item, new_node)
 					
 			InventoryDrag.Statements.ROTATE_COUNTERCLOCKWISE:
 				if drag_section == -100:
 					var new_node = create_item(tree_root)
 					new_node.set_text(0, "rotate_counterclockwise()")
 					node_types[new_node] = "rotate_counterclockwise"
-				elif node_types[item] == 'empty' and drag_section == 0:
-					item.set_text(0, "rotate_counterclockwise()")
-					node_types[item] = "rotate_counterclockwise"
+				elif node_types[item] == 'empty':
+					_change_empty(item, "rotate_counterclockwise()", "rotate_counterclockwise", drag_section)
 				elif drag_section == 1:
-					# TODO: Insert the new node after item.
-					pass
+					var new_node = create_item(tree_root)
+					new_node.set_text(0, "rotate_counterclockwise()")
+					node_types[new_node] = "rotate_counterclockwise"
+					_insert_after(item, new_node)
 				elif drag_section == -1:
-					# TODO: Insert the new node before item.
-					pass
+					var new_node = create_item(tree_root)
+					new_node.set_text(0, "rotate_counterclockwise()")
+					node_types[new_node] = "rotate_counterclockwise"
+					_insert_before(item, new_node)
 				
 			InventoryDrag.Statements.PRINT:
 				if drag_section == -100:
 					var new_node = create_item(tree_root)
 					new_node.set_text(0, "print('hello world')")
 					node_types[new_node] = "print"
-				elif node_types[item] == 'empty' and drag_section == 0:
-					item.set_text(0, "print('hello world')")
-					node_types[item] = "print"
+				elif node_types[item] == 'empty':
+					_change_empty(item, "print('hello world')", "print", drag_section)
 				elif drag_section == 1:
-					# TODO: Insert the new node after item.
-					pass
+					var new_node = create_item(tree_root)
+					new_node.set_text(0, "print('hello world')")
+					node_types[new_node] = "print"
+					_insert_after(item, new_node)
 				elif drag_section == -1:
-					# TODO: Insert the new node before item.
-					pass
+					var new_node = create_item(tree_root)
+					new_node.set_text(0, "print('hello world')")
+					node_types[new_node] = "print"
+					_insert_after(item, new_node)
 				
 			InventoryDrag.Statements.IF:
 				if drag_section == -100:
