@@ -17,6 +17,19 @@ var on_process = false
 var instruction = 0
 var destination = []
 
+func is_wall_ahead() -> bool:
+	destination = [self.position.x, self.position.y]
+	match direction:
+		0: destination[1] -= BLOCKSIZE
+		1: destination[0] += BLOCKSIZE
+		2: destination[1] += BLOCKSIZE
+		3: destination[0] -= BLOCKSIZE
+	var cell_coords = tilemap.local_to_map(Vector2(destination[0], destination[1]))
+	var cell_atlas = tilemap.get_cell_atlas_coords(0, cell_coords)
+	if cell_atlas != null and is_atlas_wall(cell_atlas):
+		return true
+	return false
+
 func move_right():
 	instruction_queue.push_back(4)
 	
