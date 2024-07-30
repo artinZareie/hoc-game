@@ -1,10 +1,11 @@
-[gd_scene load_steps=7 format=3 uid="uid://bgqie1r3rp6l4"]
+[gd_scene load_steps=8 format=3 uid="uid://bgqie1r3rp6l4"]
 
 [ext_resource type="Texture2D" uid="uid://dhhrvjwn8eqa3" path="res://Assets/icons/rotate-right-solid.svg" id="1_7jdub"]
 [ext_resource type="Script" path="res://Scenes/CodeList.gd" id="1_x1glx"]
 [ext_resource type="Texture2D" uid="uid://cj7tggr0nwqik" path="res://Assets/icons/rotate-left-solid.svg" id="2_or518"]
 [ext_resource type="Texture2D" uid="uid://cvo4bxqgkqtdf" path="res://Assets/icons/terminal-solid.svg" id="3_ju48e"]
 [ext_resource type="Texture2D" uid="uid://cjrvb3ox73mcw" path="res://Assets/icons/split-arrows-svgrepo-com.svg" id="4_tcepx"]
+[ext_resource type="Texture2D" uid="uid://do4xgmk1t83yo" path="res://Assets/icons/arrow-right-solid.svg" id="5_oiqf4"]
 [ext_resource type="Script" path="res://Scenes/GetDroppable.gd" id="6_02jge"]
 
 [node name="ui" type="CanvasLayer"]
@@ -32,16 +33,18 @@ offset_left = 10.0
 offset_top = 47.0
 offset_right = 378.0
 offset_bottom = 323.0
-item_count = 4
+item_count = 5
 fixed_icon_size = Vector2i(32, 32)
 item_0/text = "Rotate Clockwise"
 item_0/icon = ExtResource("1_7jdub")
 item_1/text = "Rotate Counter Clockwise"
 item_1/icon = ExtResource("2_or518")
-item_2/text = "Print"
-item_2/icon = ExtResource("3_ju48e")
-item_3/text = "If"
-item_3/icon = ExtResource("4_tcepx")
+item_2/text = "Forward"
+item_2/icon = ExtResource("5_oiqf4")
+item_3/text = "Print"
+item_3/icon = ExtResource("3_ju48e")
+item_4/text = "If"
+item_4/icon = ExtResource("4_tcepx")
 script = ExtResource("1_x1glx")
 
 [node name="Code" type="Tree" parent="."]
