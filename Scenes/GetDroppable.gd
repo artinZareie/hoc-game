@@ -72,6 +72,9 @@ func _can_drop_data(at_position: Vector2, data: Variant) -> bool:
 	if (data is CodeNode):
 		var drop_section := get_drop_section_at_position(at_position)
 		var item := get_item_at_position(at_position)
+		
+		if node_types[item] == 'else':
+			item = item.get_prev()
 	
 		if drop_section == 0 and not _can_have_child(item):
 				return false
