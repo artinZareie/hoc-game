@@ -15,10 +15,17 @@ var test_level = [
 	[wall, wall, wall, wall, wall, wall, wall, wall, wall, wall]	
 ]
 
-func _ready():
+func load_test_level():
 	for i in range(0, 10):
 		for j in range(0, 6):
 			self.set_cell(0, Vector2i(i,j),  0, test_level[j][i])
+
+func load_level(level_number):
+	if (level_number == 0):
+		load_test_level()
+
+func _ready():
+	load_level(0)
 
 
 
