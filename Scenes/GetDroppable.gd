@@ -40,13 +40,10 @@ func _get_drag_data(at_position) -> CodeNode:
 	return code_node
 
 
-func _is_upper_equal(upper: TreeItem, lower: TreeItem) -> bool:
-	if upper == lower:
-		return true
-	
-	var current_item = lower
+func _is_upper_equal(outer: TreeItem, inner: TreeItem) -> bool:
+	var current_item = inner
 	while current_item:
-		if current_item == upper:
+		if current_item == outer:
 			return true
 		current_item = current_item.get_parent()
 	return false
@@ -94,10 +91,7 @@ func _can_drop_data(at_position: Vector2, data: Variant) -> bool:
 		if _is_upper_equal(data.item, item):
 			return false
 		
-		if _get_type(item) == 'if' and _is_upper_equal(data.item, if_else[item]):
-			return false
-		
-		if _get_type(item) == 'else' and _is_upper_equal(data.item, item.get_prev()):
+		if _get_type(data.item) == 'if' and _is_upper_equal(if_else[data.item], item):
 			return false
 		
 		return true
@@ -285,3 +279,22 @@ func _drop_data(at_position: Vector2, data: Variant):
 				elif drag_section == -100:
 					data.item.get_parent().remove_child(data.item)
 					tree_root.add_child(data.item)
+			
+			"if":
+				if drag_section == -1:
+					_insert_before(item, data.item)
+					_insert_after(data.item, data.post_else)
+				
+				elif drag_section == 0:
+					data.item.get_parent().remove_child(data.item)
+					item.add_child(data.item)
+					_insert_after(data.item, data.post_else)
+				
+				elif drag_section == 1:
+					_insert_after(item, data.item)
+					_insert_after(data.item, data.post_else)
+				
+				elif drag_section == -100:
+					data.item.get_parent().remove_child(data.item)
+					tree_root.add_child(data.item)
+					_insert_after(data.item, data.post_else)
