@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://bgqie1r3rp6l4"]
+[gd_scene load_steps=11 format=3 uid="uid://bgqie1r3rp6l4"]
 
 [ext_resource type="Texture2D" uid="uid://dhhrvjwn8eqa3" path="res://Assets/icons/rotate-right-solid.svg" id="1_7jdub"]
 [ext_resource type="Texture2D" uid="uid://vw757pxdvjk0" path="res://Assets/icons/play-solid.svg" id="1_17r3h"]
@@ -8,6 +8,8 @@
 [ext_resource type="Texture2D" uid="uid://cjrvb3ox73mcw" path="res://Assets/icons/split-arrows-svgrepo-com.svg" id="4_tcepx"]
 [ext_resource type="Texture2D" uid="uid://do4xgmk1t83yo" path="res://Assets/icons/arrow-right-solid.svg" id="5_oiqf4"]
 [ext_resource type="Script" path="res://Scenes/GetDroppable.gd" id="6_02jge"]
+[ext_resource type="Script" path="res://Scenes/Garbage.gd" id="9_1u1bl"]
+[ext_resource type="Texture2D" uid="uid://cb31p7bw4xhcf" path="res://Assets/icons/trash-solid.svg" id="10_teo6c"]
 
 [node name="ui" type="CanvasLayer"]
 
@@ -66,3 +68,19 @@ offset_bottom = 607.0
 hide_root = true
 drop_mode_flags = 3
 script = ExtResource("6_02jge")
+
+[node name="Garbage" type="ItemList" parent="."]
+custom_minimum_size = Vector2(368, 277)
+offset_left = 399.0
+offset_top = 333.0
+offset_right = 767.0
+offset_bottom = 610.0
+script = ExtResource("9_1u1bl")
+
+[node name="TextureRect" type="TextureRect" parent="Garbage"]
+offset_left = 14.0
+offset_top = 9.0
+offset_right = 49.0
+offset_bottom = 49.0
+texture = ExtResource("10_teo6c")
+expand_mode = 3

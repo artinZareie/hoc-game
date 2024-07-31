@@ -1,5 +1,6 @@
 extends Tree
 
+signal remove_item_sig
 var tree_root: TreeItem
 @export var node_types: Dictionary
 @export var if_else: Dictionary
@@ -15,6 +16,10 @@ func _get_type(item: TreeItem) -> String:
 func _ready():
 	tree_root = self.create_item()
 	self.hide_root = true
+	connect("remove_item_sig", _remove_item)
+	
+	var garbage = get_node("../Garbage")
+	garbage.connect("remove_item_sig", _remove_item)
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -298,3 +303,15 @@ func _drop_data(at_position: Vector2, data: Variant):
 					data.item.get_parent().remove_child(data.item)
 					tree_root.add_child(data.item)
 					_insert_after(data.item, data.post_else)
+
+
+func _remove_item(item: TreeItem) -> void:
+	var type = _get_type(item)
+	
+	if not _can_have_child(item):
+		item.get_parent().remove_child(item)
+		item.free()
+	elif type == 'if':
+		var else_node: TreeItem = if_else[item]
+		item.get_parent().remove_child(item)
+		else_node.get_parent().remove_child(else_node)
