@@ -1,6 +1,7 @@
-[gd_scene load_steps=8 format=3 uid="uid://bgqie1r3rp6l4"]
+[gd_scene load_steps=9 format=3 uid="uid://bgqie1r3rp6l4"]
 
 [ext_resource type="Texture2D" uid="uid://dhhrvjwn8eqa3" path="res://Assets/icons/rotate-right-solid.svg" id="1_7jdub"]
+[ext_resource type="Texture2D" uid="uid://vw757pxdvjk0" path="res://Assets/icons/play-solid.svg" id="1_17r3h"]
 [ext_resource type="Script" path="res://Scenes/CodeList.gd" id="1_x1glx"]
 [ext_resource type="Texture2D" uid="uid://cj7tggr0nwqik" path="res://Assets/icons/rotate-left-solid.svg" id="2_or518"]
 [ext_resource type="Texture2D" uid="uid://cvo4bxqgkqtdf" path="res://Assets/icons/terminal-solid.svg" id="3_ju48e"]
@@ -34,6 +35,8 @@ offset_top = 9.0
 offset_right = 378.0
 offset_bottom = 40.0
 text = "Execute"
+icon = ExtResource("1_17r3h")
+expand_icon = true
 
 [node name="ItemList" type="ItemList" parent="."]
 offset_left = 10.0
