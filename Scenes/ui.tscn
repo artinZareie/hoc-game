@@ -28,6 +28,13 @@ offset_top = 11.0
 offset_right = 71.0
 offset_bottom = 37.0
 
+[node name="Play" type="Button" parent="."]
+offset_left = 115.0
+offset_top = 9.0
+offset_right = 378.0
+offset_bottom = 40.0
+text = "Execute"
+
 [node name="ItemList" type="ItemList" parent="."]
 offset_left = 10.0
 offset_top = 47.0
