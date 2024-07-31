@@ -1,7 +1,8 @@
-[gd_scene load_steps=13 format=3 uid="uid://bgqie1r3rp6l4"]
+[gd_scene load_steps=14 format=3 uid="uid://bgqie1r3rp6l4"]
 
 [ext_resource type="Texture2D" uid="uid://dhhrvjwn8eqa3" path="res://Assets/icons/rotate-right-solid.svg" id="1_7jdub"]
 [ext_resource type="Texture2D" uid="uid://vw757pxdvjk0" path="res://Assets/icons/play-solid.svg" id="1_17r3h"]
+[ext_resource type="Script" path="res://Scenes/ui.gd" id="1_oghe3"]
 [ext_resource type="Script" path="res://Scenes/CodeList.gd" id="1_x1glx"]
 [ext_resource type="Texture2D" uid="uid://cj7tggr0nwqik" path="res://Assets/icons/rotate-left-solid.svg" id="2_or518"]
 [ext_resource type="Texture2D" uid="uid://cvo4bxqgkqtdf" path="res://Assets/icons/terminal-solid.svg" id="3_ju48e"]
@@ -14,6 +15,7 @@
 [ext_resource type="Texture2D" uid="uid://cb31p7bw4xhcf" path="res://Assets/icons/trash-solid.svg" id="10_teo6c"]
 
 [node name="ui" type="CanvasLayer"]
+script = ExtResource("1_oghe3")
 
 [node name="clockwise" type="Button" parent="."]
 offset_left = 79.0
@@ -91,3 +93,5 @@ offset_right = 49.0
 offset_bottom = 49.0
 texture = ExtResource("10_teo6c")
 expand_mode = 3
+
+[connection signal="pressed" from="Play" to="." method="_on_play_pressed"]

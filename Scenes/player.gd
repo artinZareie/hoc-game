@@ -17,6 +17,9 @@ var on_process = false
 var instruction = 0
 var destination = []
 
+func execute():
+	instruction_queue.push_back(2)
+
 func is_wall_ahead() -> bool:
 	destination = [self.position.x, self.position.y]
 	match direction:
