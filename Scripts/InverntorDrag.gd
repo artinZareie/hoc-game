@@ -2,7 +2,8 @@ class_name InventoryDrag
 extends Object
 
 var data: int
-enum Statements {ROTATE_CLOCKWISE, ROTATE_COUNTERCLOCKWISE, FORWARD, PRINT, IF}
+enum Statements {ROTATE_CLOCKWISE, ROTATE_COUNTERCLOCKWISE, 
+	FORWARD, PRINT, IF, WHILE, WALL}
 
 
 func _init(p_data: int):

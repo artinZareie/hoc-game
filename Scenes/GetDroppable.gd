@@ -4,6 +4,7 @@ signal remove_item_sig
 var tree_root: TreeItem
 @export var node_types: Dictionary
 @export var if_else: Dictionary
+@export var node_conds: Dictionary
 
 
 func _get_type(item: TreeItem) -> String:
@@ -57,7 +58,7 @@ func _is_upper_equal(outer: TreeItem, inner: TreeItem) -> bool:
 func _can_have_child(item: TreeItem) -> bool:
 	var type = _get_type(item)
 	
-	return type == 'if' or type == 'else'
+	return type == 'if' or type == 'else' or type == 'while'
 
 
 func _can_drop_data(at_position: Vector2, data: Variant) -> bool:
@@ -67,10 +68,14 @@ func _can_drop_data(at_position: Vector2, data: Variant) -> bool:
 		
 		if drop_section == 0 and not _can_have_child(item):
 			return false
-				
-		if drop_section == 0 and \
-			_get_type(item) == 'else' and false:
+			
+		if _is_condition(data):
+			if drop_section == -100:
 				return false
+			
+			if not _gets_condition(item):
+				return false
+		
 		if drop_section == 1 and not _is_throwable_after(item) or\
 			drop_section == -1 and not _is_throwable_before(item):
 				return false
@@ -81,16 +86,11 @@ func _can_drop_data(at_position: Vector2, data: Variant) -> bool:
 		var drop_section := get_drop_section_at_position(at_position)
 		var item := get_item_at_position(at_position)
 		
-		print_debug(_get_type(item), ", ", drop_section)
 		if drop_section == 1 and not _is_throwable_after(item) or\
 			drop_section == -1 and not _is_throwable_before(item):
 				return false
 		
 		if drop_section == 0 and not _can_have_child(item):
-				return false
-				
-		if drop_section == 0 and \
-			_get_type(item) == 'else' and false:
 				return false
 		
 		if _is_upper_equal(data.item, item):
@@ -133,33 +133,59 @@ func _is_throwable_before(item: TreeItem) -> bool:
 	return type != 'else'
 
 
+func _is_condition(item: InventoryDrag) -> bool:
+	if item:
+		return item.data == InventoryDrag.Statements.WALL
+	return false
+
+
+func _gets_condition(item: TreeItem) -> bool:
+	var type = _get_type(item)
+	return type == 'if' or type == 'while'
+
+
 func _insert_single_declarative(item: TreeItem, drag_section: int,
-									text: String, type: String) -> void:
+									text: String, type: String) -> TreeItem:
 	if drag_section == -100:
 		var new_node = _create_node(tree_root, 
 			text,
 			type)
+		return new_node
 	
 	elif _get_type(item) == 'empty':
 		_change_empty(item, text, type, drag_section)
+		return item
 		
 	elif drag_section == 1 and _is_throwable_after(item):
 		var new_node = _create_node(tree_root, 
 			text,
 			type)
 		_insert_after(item, new_node)
+		return new_node
 		
 	elif drag_section == -1 and _is_throwable_before(item):
 		var new_node = _create_node(tree_root, 
 			text,
 			type)
 		_insert_before(item, new_node)
+		return new_node
 		
 	elif drag_section == 0 and \
 		(_get_type(item) == 'if' or _get_type(item) == 'else'):
 		var new_node = _create_node(item, 
 			text,
 			type)
+		return new_node
+			
+	elif drag_section == 0 and \
+		(_get_type(item) == 'while'):
+		var new_node = _create_node(item, 
+			text,
+			type)
+		return new_node
+	
+	var new_node: TreeItem = null
+	return new_node
 
 
 func _drop_data(at_position: Vector2, data: Variant):
@@ -201,6 +227,7 @@ func _drop_data(at_position: Vector2, data: Variant):
 						"else", 
 						"else")
 					if_else[new_node_if] = new_node_else
+					node_conds[new_node_if] = 'true'
 					
 					#var empty_else = create_item(new_node_else)
 					#node_types[empty_else] = "empty"
@@ -216,6 +243,7 @@ func _drop_data(at_position: Vector2, data: Variant):
 						"else")
 					_insert_after(new_node_if, new_node_else)
 					if_else[new_node_if] = new_node_else
+					node_conds[new_node_if] = 'true'
 					
 					#var empty_else = create_item(new_node_else)
 					#node_types[empty_else] = "empty"
@@ -232,6 +260,7 @@ func _drop_data(at_position: Vector2, data: Variant):
 						"else")
 					_insert_after(new_node_if, new_node_else)
 					if_else[new_node_if] = new_node_else
+					node_conds[new_node_if] = 'true'
 				
 				elif drag_section == -1:
 					var new_node_if = _create_node(tree_root, 
@@ -244,6 +273,7 @@ func _drop_data(at_position: Vector2, data: Variant):
 						"else")
 					_insert_after(new_node_if, new_node_else)
 					if_else[new_node_if] = new_node_else
+					node_conds[new_node_if] = 'true'
 					
 				elif drag_section == 0 and \
 					(_get_type(item) == 'if' or _get_type(item) == 'else'):
@@ -258,10 +288,22 @@ func _drop_data(at_position: Vector2, data: Variant):
 						"else", 
 						"else")
 					if_else[new_node_if] = new_node_else
+					node_conds[new_node_if] = 'true'
 					
 					#var empty_else = create_item(new_node_else)
 					#node_types[empty_else] = "empty"
-					
+			
+			InventoryDrag.Statements.WHILE:
+				var node = _insert_single_declarative(item, drag_section,
+											"while false", 
+											"while")
+				node_conds[node] = 'false'
+			
+			InventoryDrag.Statements.WALL:
+				if drag_section == 0 and _gets_condition(item):
+					var item_text: String = _get_type(item) + " is_looking_at_wall()"
+					item.set_text(0, item_text)
+			
 			_:
 				return
 	
@@ -270,7 +312,8 @@ func _drop_data(at_position: Vector2, data: Variant):
 		var item := get_item_at_position(at_position)
 		
 		match _get_type(data.item):
-			"print", "forward", "rotate_clockwise", "rotate_counterclockwise":
+			"print", "forward", \
+			"rotate_clockwise", "rotate_counterclockwise", "while":
 				if drag_section == -1:
 					_insert_before(item, data.item)
 				
@@ -308,10 +351,12 @@ func _drop_data(at_position: Vector2, data: Variant):
 func _remove_item(item: TreeItem) -> void:
 	var type = _get_type(item)
 	
-	if not _can_have_child(item):
-		item.get_parent().remove_child(item)
-		item.free()
-	elif type == 'if':
+	if type == 'if':
 		var else_node: TreeItem = if_else[item]
-		item.get_parent().remove_child(item)
 		else_node.get_parent().remove_child(else_node)
+		node_types.erase(else_node)
+		if_else.erase(item)
+	
+	item.get_parent().remove_child(item)
+	item.free()
+	node_types.erase(item)

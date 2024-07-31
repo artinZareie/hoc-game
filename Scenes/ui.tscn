@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://bgqie1r3rp6l4"]
+[gd_scene load_steps=13 format=3 uid="uid://bgqie1r3rp6l4"]
 
 [ext_resource type="Texture2D" uid="uid://dhhrvjwn8eqa3" path="res://Assets/icons/rotate-right-solid.svg" id="1_7jdub"]
 [ext_resource type="Texture2D" uid="uid://vw757pxdvjk0" path="res://Assets/icons/play-solid.svg" id="1_17r3h"]
@@ -8,6 +8,8 @@
 [ext_resource type="Texture2D" uid="uid://cjrvb3ox73mcw" path="res://Assets/icons/split-arrows-svgrepo-com.svg" id="4_tcepx"]
 [ext_resource type="Texture2D" uid="uid://do4xgmk1t83yo" path="res://Assets/icons/arrow-right-solid.svg" id="5_oiqf4"]
 [ext_resource type="Script" path="res://Scenes/GetDroppable.gd" id="6_02jge"]
+[ext_resource type="Texture2D" uid="uid://vwyms35pm2i2" path="res://Assets/icons/repeat-solid.svg" id="7_xd8bx"]
+[ext_resource type="Texture2D" uid="uid://4ckvsb512pqb" path="res://Assets/icons/brick-wall-icon.svg" id="8_rc264"]
 [ext_resource type="Script" path="res://Scenes/Garbage.gd" id="9_1u1bl"]
 [ext_resource type="Texture2D" uid="uid://cb31p7bw4xhcf" path="res://Assets/icons/trash-solid.svg" id="10_teo6c"]
 
@@ -45,7 +47,7 @@ offset_left = 10.0
 offset_top = 47.0
 offset_right = 378.0
 offset_bottom = 323.0
-item_count = 5
+item_count = 7
 fixed_icon_size = Vector2i(32, 32)
 item_0/text = "Rotate Clockwise"
 item_0/icon = ExtResource("1_7jdub")
@@ -57,6 +59,10 @@ item_3/text = "Print"
 item_3/icon = ExtResource("3_ju48e")
 item_4/text = "If"
 item_4/icon = ExtResource("4_tcepx")
+item_5/text = "while"
+item_5/icon = ExtResource("7_xd8bx")
+item_6/text = "Looking at wall?"
+item_6/icon = ExtResource("8_rc264")
 script = ExtResource("1_x1glx")
 
 [node name="Code" type="Tree" parent="."]
@@ -78,6 +84,7 @@ offset_bottom = 610.0
 script = ExtResource("9_1u1bl")
 
 [node name="TextureRect" type="TextureRect" parent="Garbage"]
+layout_mode = 0
 offset_left = 14.0
 offset_top = 9.0
 offset_right = 49.0
