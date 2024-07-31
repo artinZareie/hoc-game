@@ -7,6 +7,12 @@ const ANGULAR_EPS = PI/ 30
 # Atlas (1, 0) corresponds to wall
 const WALL_ATLAS_COORDS = [1, 0]
 const WATER_ATLAS_COORDS = [3, 0]
+const INST_TO_NUM = {
+	'': 0,
+	'rotate_clockwise': 1,
+	'rotate_counterclockwise': 2,
+	'forward': 3
+}
 
 @export var direction: int = 0
 
@@ -17,8 +23,31 @@ var on_process = false
 var instruction = 0
 var destination = []
 
+
+
+func _add_instruct_to_queue(inst: String):
+	if INST_TO_NUM.has(inst):
+		instruction_queue.push_back(INST_TO_NUM[inst])
+
+
+func _iterate_over_tree_same_depth(head: TreeItem) -> void:
+	var tree: Tree = get_node("../../ui/Code")
+	var curr_node = head
+	
+	while curr_node:
+		var type: String = tree.node_types[curr_node]
+		_add_instruct_to_queue(tree.node_types[curr_node])
+		curr_node = curr_node.get_next()
+
+
 func execute():
-	instruction_queue.push_back(2)
+	var tree: Tree = get_node("../../ui/Code")
+	var tree_root: TreeItem = tree.get_root()
+	
+	var curr_node = tree_root.get_child(0)
+	_iterate_over_tree_same_depth(curr_node)
+	
+
 
 func is_wall_ahead() -> bool:
 	destination = [self.position.x, self.position.y]

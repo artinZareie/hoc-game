@@ -2,9 +2,9 @@ extends Tree
 
 signal remove_item_sig
 var tree_root: TreeItem
-@export var node_types: Dictionary
-@export var if_else: Dictionary
-@export var node_conds: Dictionary
+var node_types: Dictionary
+var if_else: Dictionary
+var node_conds: Dictionary
 
 
 func _get_type(item: TreeItem) -> String:
