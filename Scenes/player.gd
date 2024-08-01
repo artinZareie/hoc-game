@@ -47,6 +47,10 @@ func _eval_cond(condition: String) -> bool:
 				run_into_wall = true
 			
 			return run_into_wall
+		'true':
+			return true
+		'false':
+			return false
 		_:
 			return false
 
@@ -73,9 +77,31 @@ func _eval_if(item: TreeItem) -> void:
 	condition_queue = to_if + condition_queue
 	while_queue = to_while + while_queue
 
+
 func _add_instruct_to_queue(inst: String, inst_queue: Array) -> void:
 	if INST_TO_NUM.has(inst):
 		inst_queue.push_back(INST_TO_NUM[inst])
+
+
+func _eval_while(item: TreeItem) -> void:
+	var tree: Tree = get_node("../../../ui/Code")
+	var tree_root: TreeItem = tree.get_root()
+	
+	var to_inst := []
+	var to_if := []
+	var to_while := []
+	
+	var cond = tree.node_conds[item]
+	
+	if _eval_cond(cond):
+		var first_child: TreeItem = item.get_child(0)
+		_iterate_over_tree_same_depth(first_child, to_inst, to_if, to_while)
+		_add_instruct_to_queue('while', to_inst)
+		to_while.push_back(item)
+	
+	instruction_queue = to_inst + instruction_queue
+	condition_queue = to_if + condition_queue
+	while_queue = to_while + while_queue	
 
 
 func _iterate_over_tree_same_depth(head: TreeItem,
@@ -205,6 +231,9 @@ func _physics_process(delta):
 			8:
 				var if_item: TreeItem = condition_queue.pop_front()
 				_eval_if(if_item)
+			9:
+				var while_item: TreeItem = while_queue.pop_front()
+				_eval_while(while_item)
 		
 		var run_into_wall: bool = false
 		
