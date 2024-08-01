@@ -5,6 +5,10 @@
 
 [node name="Main" type="Node2D"]
 
-[node name="level" parent="." instance=ExtResource("1_6ewst")]
-
 [node name="ui" parent="." instance=ExtResource("2_jil8w")]
+
+[node name="level_container" type="CanvasLayer" parent="."]
+
+[node name="level" parent="level_container" instance=ExtResource("1_6ewst")]
+position = Vector2(400, 0)
+scale = Vector2(4, 4)

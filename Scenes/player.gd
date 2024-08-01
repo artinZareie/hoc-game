@@ -97,12 +97,6 @@ func _ready():
 	# Checking if parent is actually a TileMap
 	if not tilemap:
 		print("Invalid Parent!")
-	var clockwise_button = get_node("../../ui/clockwise")
-	clockwise_button.pressed.connect(turn_clockwise)
-	var counter_button = get_node("../../ui/forward")
-	counter_button.pressed.connect(move_forward)
-	var forward_button = get_node("../../ui/counter")
-	forward_button.pressed.connect(turn_counter)
 
 func _physics_process(delta):
 	self.rotation = lerp_angle(self.rotation, PI / 2 * direction, ANGULAR_SPEED * delta)

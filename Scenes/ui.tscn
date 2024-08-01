@@ -17,24 +17,6 @@
 [node name="ui" type="CanvasLayer"]
 script = ExtResource("1_oghe3")
 
-[node name="clockwise" type="Button" parent="."]
-offset_left = 79.0
-offset_top = 11.0
-offset_right = 107.0
-offset_bottom = 37.0
-
-[node name="counter" type="Button" parent="."]
-offset_left = 9.0
-offset_top = 11.0
-offset_right = 35.0
-offset_bottom = 37.0
-
-[node name="forward" type="Button" parent="."]
-offset_left = 44.0
-offset_top = 11.0
-offset_right = 71.0
-offset_bottom = 37.0
-
 [node name="Play" type="Button" parent="."]
 offset_left = 115.0
 offset_top = 9.0
@@ -79,10 +61,10 @@ script = ExtResource("6_02jge")
 
 [node name="Garbage" type="ItemList" parent="."]
 custom_minimum_size = Vector2(368, 277)
-offset_left = 399.0
-offset_top = 333.0
-offset_right = 767.0
-offset_bottom = 610.0
+offset_left = 9.0
+offset_top = 616.0
+offset_right = 377.0
+offset_bottom = 893.0
 script = ExtResource("9_1u1bl")
 
 [node name="TextureRect" type="TextureRect" parent="Garbage"]
