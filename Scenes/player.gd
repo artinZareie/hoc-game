@@ -11,41 +11,94 @@ const INST_TO_NUM = {
 	'': 0,
 	'rotate_clockwise': 1,
 	'rotate_counterclockwise': 2,
-	'forward': 3
+	'forward': 3,
+	'if': 8,
+	'while': 9
 }
 
 @export var direction: int = 0
 
 @onready var tilemap: TileMap = get_parent() as TileMap
-
-var instruction_queue = []
-var on_process = false
-var instruction = 0
-var destination = []
-
-
-
-func _add_instruct_to_queue(inst: String):
-	if INST_TO_NUM.has(inst):
-		instruction_queue.push_back(INST_TO_NUM[inst])
-
-
-func _iterate_over_tree_same_depth(head: TreeItem) -> void:
-	var tree: Tree = get_node("../../ui/Code")
-	var curr_node = head
 	
+var instruction_queue := []
+var on_process := false
+var instruction := 0
+var destination := []
+var condition_queue := []
+var while_queue := []
+
+
+func _eval_cond(condition: String) -> bool:
+	match condition:
+		"is_wall":
+			var dest = [self.position.x, self.position.y]
+			var run_into_wall: bool = false
+			
+			match direction:
+				0: dest[1] -= BLOCKSIZE
+				1: dest[0] += BLOCKSIZE
+				2: dest[1] += BLOCKSIZE
+				3: dest[0] -= BLOCKSIZE
+			
+			var cell_coords = tilemap.local_to_map(Vector2(dest[0], dest[1]))
+			var cell_atlas = tilemap.get_cell_atlas_coords(0, cell_coords)
+			if cell_atlas != null and is_atlas_wall(cell_atlas):
+				run_into_wall = true
+			
+			return run_into_wall
+		_:
+			return false
+
+
+func _eval_if(item: TreeItem) -> void:
+	var tree: Tree = get_node("../../ui/Code")
+	var tree_root: TreeItem = tree.get_root()
+	
+	var to_inst := []
+	var to_if := []
+	var to_while := []
+	
+	var else_node := item.get_next()
+	var cond = tree.node_conds[item]
+	
+	#if _eval_cond(5)
+
+
+func _add_instruct_to_queue(inst: String, inst_queue: Array) -> void:
+	if INST_TO_NUM.has(inst):
+		inst_queue.push_back(INST_TO_NUM[inst])
+
+
+func _iterate_over_tree_same_depth(head: TreeItem,
+			inst_queue: Array, p_if_queue: Array, p_while_queue: Array) -> void:
+	
+	var tree: Tree = get_node("../../ui/Code")
+	var tree_root: TreeItem = tree.get_root()
+	
+	var curr_node = head
 	while curr_node:
 		var type: String = tree.node_types[curr_node]
-		_add_instruct_to_queue(tree.node_types[curr_node])
+		_add_instruct_to_queue(tree.node_types[curr_node], inst_queue)
+		
+		if tree.node_types[curr_node] == 'if':
+			p_if_queue.push_back(curr_node)
+			curr_node = curr_node.get_next()  # Skip the else node
+			
+		if tree.node_types[curr_node] == 'while':
+			p_while_queue.push_back(curr_node)
+		
 		curr_node = curr_node.get_next()
 
 
-func execute():
+func execute():	
 	var tree: Tree = get_node("../../ui/Code")
 	var tree_root: TreeItem = tree.get_root()
 	
 	var curr_node = tree_root.get_child(0)
-	_iterate_over_tree_same_depth(curr_node)
+	_iterate_over_tree_same_depth(curr_node,
+									instruction_queue,
+									condition_queue,
+									while_queue)
 	
 
 
@@ -62,36 +115,47 @@ func is_wall_ahead() -> bool:
 		return true
 	return false
 
+
 func move_right():
 	instruction_queue.push_back(4)
-	
+
+
 func move_left():
 	instruction_queue.push_back(5)
-	
+
+
 func move_up():
 	instruction_queue.push_back(6)
 
+
 func move_down():
 	instruction_queue.push_back(7)
-	
+
+
 func turn_clockwise():
 	instruction_queue.push_back(1)
-	
+
+
 func turn_counter():
 	instruction_queue.push_back(2)
-	
+
+
 func move_forward():
 	instruction_queue.push_back(3)
-	
+
+
 func is_atlas_wall(atlas):
 	return atlas[0] == WALL_ATLAS_COORDS[0] and atlas[1] == WALL_ATLAS_COORDS[1]
-	
+
+
 func is_atlas_water(atlas):
 	return atlas[0] == WATER_ATLAS_COORDS[0] and atlas[1] == WATER_ATLAS_COORDS[1]
-	
+
+
 func win_operation():
 	print("You won!")
 	get_tree().paused = true
+
 
 func _ready():
 	# Checking if parent is actually a TileMap
@@ -104,10 +168,11 @@ func _ready():
 	var forward_button = get_node("../../ui/counter")
 	forward_button.pressed.connect(turn_counter)
 
+
 func _physics_process(delta):
 	self.rotation = lerp_angle(self.rotation, PI / 2 * direction, ANGULAR_SPEED * delta)
-	var directionX = Input.get_axis("ui_left", "ui_right")
-	var directionY = Input.get_axis("ui_up", "ui_down")
+	var directionX = 0
+	var directionY = 0
 	
 	var curr_cell_coords = tilemap.local_to_map(self.position)
 	var curr_cell_atlas = tilemap.get_cell_atlas_coords(0, curr_cell_coords)
