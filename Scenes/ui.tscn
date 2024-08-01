@@ -18,7 +18,7 @@
 script = ExtResource("1_oghe3")
 
 [node name="Play" type="Button" parent="."]
-offset_left = 115.0
+offset_left = 10.0
 offset_top = 9.0
 offset_right = 378.0
 offset_bottom = 40.0
