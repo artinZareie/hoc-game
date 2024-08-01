@@ -3,7 +3,7 @@ extends Object
 
 var data: int
 enum Statements {ROTATE_CLOCKWISE, ROTATE_COUNTERCLOCKWISE, 
-	FORWARD, PRINT, IF, WHILE, WALL}
+	FORWARD, PRINT, IF, WHILE, WALL, WAY, TRUE, FALSE}
 
 
 func _init(p_data: int):

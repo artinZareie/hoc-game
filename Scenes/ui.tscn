@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://dme7k8wvwlamn"]
+[gd_scene load_steps=17 format=3 uid="uid://dme7k8wvwlamn"]
 
 [ext_resource type="Texture2D" uid="uid://dhhrvjwn8eqa3" path="res://Assets/icons/rotate-right-solid.svg" id="1_7jdub"]
 [ext_resource type="Texture2D" uid="uid://vw757pxdvjk0" path="res://Assets/icons/play-solid.svg" id="1_17r3h"]
@@ -12,7 +12,10 @@
 [ext_resource type="Texture2D" uid="uid://vwyms35pm2i2" path="res://Assets/icons/repeat-solid.svg" id="7_xd8bx"]
 [ext_resource type="Texture2D" uid="uid://4ckvsb512pqb" path="res://Assets/icons/brick-wall-icon.svg" id="8_rc264"]
 [ext_resource type="Script" path="res://Scenes/Garbage.gd" id="9_1u1bl"]
+[ext_resource type="Texture2D" uid="uid://bx2k7s70ffqjc" path="res://Assets/icons/road-svgrepo-com.svg" id="10_en3ff"]
 [ext_resource type="Texture2D" uid="uid://cb31p7bw4xhcf" path="res://Assets/icons/trash-solid.svg" id="10_teo6c"]
+[ext_resource type="Texture2D" uid="uid://bwkifhh5iayoc" path="res://Assets/icons/check-solid.svg" id="11_l1rbp"]
+[ext_resource type="Texture2D" uid="uid://dgsvt0xxe10u6" path="res://Assets/icons/xmark-solid.svg" id="12_hrwmh"]
 
 [node name="ui" type="CanvasLayer"]
 script = ExtResource("1_oghe3")
@@ -31,7 +34,7 @@ offset_left = 10.0
 offset_top = 47.0
 offset_right = 378.0
 offset_bottom = 323.0
-item_count = 7
+item_count = 10
 fixed_icon_size = Vector2i(32, 32)
 item_0/text = "Rotate Clockwise"
 item_0/icon = ExtResource("1_7jdub")
@@ -47,6 +50,12 @@ item_5/text = "while"
 item_5/icon = ExtResource("7_xd8bx")
 item_6/text = "Looking at wall?"
 item_6/icon = ExtResource("8_rc264")
+item_7/text = "Is the way free?"
+item_7/icon = ExtResource("10_en3ff")
+item_8/text = "true"
+item_8/icon = ExtResource("11_l1rbp")
+item_9/text = "false"
+item_9/icon = ExtResource("12_hrwmh")
 script = ExtResource("1_x1glx")
 
 [node name="Code" type="Tree" parent="."]

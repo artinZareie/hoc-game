@@ -6,6 +6,7 @@ const BLOCKSIZE = 32
 const ANGULAR_EPS = PI/ 30
 # Atlas (1, 0) corresponds to wall
 const WALL_ATLAS_COORDS = [1, 0]
+const SIMPLE_ATLAS_COORDS = [0, 0]
 const WATER_ATLAS_COORDS = [3, 0]
 const INST_TO_NUM = {
 	'': 0,
@@ -47,10 +48,30 @@ func _eval_cond(condition: String) -> bool:
 				run_into_wall = true
 			
 			return run_into_wall
+			
+		"is_way":
+			var dest = [self.position.x, self.position.y]
+			var run_into_wall: bool = false
+			
+			match direction:
+				0: dest[1] -= BLOCKSIZE
+				1: dest[0] += BLOCKSIZE
+				2: dest[1] += BLOCKSIZE
+				3: dest[0] -= BLOCKSIZE
+			
+			var cell_coords = tilemap.local_to_map(Vector2(dest[0], dest[1]))
+			var cell_atlas = tilemap.get_cell_atlas_coords(0, cell_coords)
+			if cell_atlas != null and is_atlas_way(cell_atlas):
+				run_into_wall = true
+			
+			return run_into_wall
+			
 		'true':
 			return true
+			
 		'false':
 			return false
+			
 		_:
 			return false
 
@@ -184,8 +205,17 @@ func is_atlas_wall(atlas):
 	return atlas[0] == WALL_ATLAS_COORDS[0] and atlas[1] == WALL_ATLAS_COORDS[1]
 
 
+func is_atlas_simple(atlas):
+	return atlas[0] == SIMPLE_ATLAS_COORDS[0] and \
+			atlas[1] == SIMPLE_ATLAS_COORDS[1]
+
+
 func is_atlas_water(atlas):
-	return atlas[0] == WATER_ATLAS_COORDS[0] and atlas[1] == WATER_ATLAS_COORDS[1]
+	return atlas[0] == WATER_ATLAS_COORDS[0] and\
+	 atlas[1] == WATER_ATLAS_COORDS[1]
+
+func is_atlas_way(atlas):
+	return is_atlas_water(atlas) or is_atlas_simple(atlas)
 
 
 func win_operation():

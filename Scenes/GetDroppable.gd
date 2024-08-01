@@ -135,7 +135,10 @@ func _is_throwable_before(item: TreeItem) -> bool:
 
 func _is_condition(item: InventoryDrag) -> bool:
 	if item:
-		return item.data == InventoryDrag.Statements.WALL
+		return item.data == InventoryDrag.Statements.WALL or\
+				item.data == InventoryDrag.Statements.WAY or\
+				item.data == InventoryDrag.Statements.TRUE or\
+				item.data == InventoryDrag.Statements.FALSE
 	return false
 
 
@@ -304,6 +307,24 @@ func _drop_data(at_position: Vector2, data: Variant):
 					var item_text: String = _get_type(item) + " is_looking_at_wall()"
 					item.set_text(0, item_text)
 					node_conds[item] = 'is_wall'
+			
+			InventoryDrag.Statements.WAY:
+				if drag_section == 0 and _gets_condition(item):
+					var item_text: String = _get_type(item) + " is_way_free()"
+					item.set_text(0, item_text)
+					node_conds[item] = 'is_way'
+			
+			InventoryDrag.Statements.TRUE:
+				if drag_section == 0 and _gets_condition(item):
+					var item_text: String = _get_type(item) + " true"
+					item.set_text(0, item_text)
+					node_conds[item] = 'true'
+			
+			InventoryDrag.Statements.TRUE:
+				if drag_section == 0 and _gets_condition(item):
+					var item_text: String = _get_type(item) + " false"
+					item.set_text(0, item_text)
+					node_conds[item] = 'false'
 			
 			_:
 				return
