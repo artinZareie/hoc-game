@@ -52,7 +52,7 @@ func _eval_cond(condition: String) -> bool:
 
 
 func _eval_if(item: TreeItem) -> void:
-	var tree: Tree = get_node("../../ui/Code")
+	var tree: Tree = get_node("../../../ui/Code")
 	var tree_root: TreeItem = tree.get_root()
 	
 	var to_inst := []
@@ -81,7 +81,7 @@ func _add_instruct_to_queue(inst: String, inst_queue: Array) -> void:
 func _iterate_over_tree_same_depth(head: TreeItem,
 			inst_queue: Array, p_if_queue: Array, p_while_queue: Array) -> void:
 	
-	var tree: Tree = get_node("../../ui/Code")
+	var tree: Tree = get_node("../../../ui/Code")
 	var tree_root: TreeItem = tree.get_root()
 	
 	var curr_node = head
@@ -100,7 +100,7 @@ func _iterate_over_tree_same_depth(head: TreeItem,
 
 
 func execute():	
-	var tree: Tree = get_node("../../ui/Code")
+	var tree: Tree = get_node("../../../ui/Code")
 	var tree_root: TreeItem = tree.get_root()
 	
 	var curr_node = tree_root.get_child(0)
