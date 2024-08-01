@@ -29,6 +29,7 @@ var while_queue := []
 
 
 func _eval_cond(condition: String) -> bool:
+	print_debug(condition)
 	match condition:
 		"is_wall":
 			var dest = [self.position.x, self.position.y]
@@ -61,8 +62,16 @@ func _eval_if(item: TreeItem) -> void:
 	var else_node := item.get_next()
 	var cond = tree.node_conds[item]
 	
-	#if _eval_cond(5)
-
+	if _eval_cond(cond):
+		var first_child: TreeItem = item.get_child(0)
+		_iterate_over_tree_same_depth(first_child, to_inst, to_if, to_while)
+	else:
+		var first_child: TreeItem = else_node.get_child(0)
+		_iterate_over_tree_same_depth(first_child, to_inst, to_if, to_while)
+	
+	instruction_queue = to_inst + instruction_queue
+	condition_queue = to_if + condition_queue
+	while_queue = to_while + while_queue
 
 func _add_instruct_to_queue(inst: String, inst_queue: Array) -> void:
 	if INST_TO_NUM.has(inst):
@@ -144,6 +153,7 @@ func move_forward():
 	instruction_queue.push_back(3)
 
 
+
 func is_atlas_wall(atlas):
 	return atlas[0] == WALL_ATLAS_COORDS[0] and atlas[1] == WALL_ATLAS_COORDS[1]
 
@@ -198,6 +208,9 @@ func _physics_process(delta):
 			5: destination[0] -= BLOCKSIZE
 			6: destination[1] -= BLOCKSIZE
 			7: destination[1] += BLOCKSIZE
+			8:
+				var if_item: TreeItem = condition_queue.pop_front()
+				_eval_if(if_item)
 		
 		var run_into_wall: bool = false
 		

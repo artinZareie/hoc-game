@@ -303,6 +303,7 @@ func _drop_data(at_position: Vector2, data: Variant):
 				if drag_section == 0 and _gets_condition(item):
 					var item_text: String = _get_type(item) + " is_looking_at_wall()"
 					item.set_text(0, item_text)
+					node_conds[item] = 'is_wall'
 			
 			_:
 				return
